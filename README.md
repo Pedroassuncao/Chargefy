@@ -1,5 +1,3 @@
-# Chargefy
-
 <h1 align="center">
     <img alt="Happy" title="Chargefy" src=".github/chargefy.png" width="180px" />
 </h1>
