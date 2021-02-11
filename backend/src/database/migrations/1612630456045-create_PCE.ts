@@ -4,7 +4,7 @@ export class createPCE1612630456045 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: 'PCE',
+            name: 'pces',
             columns: [
                 {
                     name: 'id',
@@ -40,16 +40,18 @@ export class createPCE1612630456045 implements MigrationInterface {
                     type: 'varchar',
                 },
                 // CHECK COLUMNS type and nr
+                // CHECK TYPE ********
                 {
                     name: 'opening_hours',
-                    type: 'date',
+                    type: 'varchar',
+                    // default: '24h',
                 },
             ],
         }))
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('PCE')
+        await queryRunner.dropTable('pces')
     }
     // RUN MOGRATIONS: "yarn typeorm migration:run"
 
