@@ -36,13 +36,12 @@ export class createPCE1612630456045 implements MigrationInterface {
 
                 },
                 {
-                    name: 'charger',
-                    type: 'text',
-
+                    name: 'charger_type',
+                    type: 'varchar',
                 },
                 // CHECK COLUMNS type and nr
                 {
-                    name: 'PCE_calendar',
+                    name: 'opening_hours',
                     type: 'date',
                 },
             ],
