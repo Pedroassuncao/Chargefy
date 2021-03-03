@@ -3,6 +3,26 @@ import { getRepository } from  'typeorm';
 import Pce from '../models/Pce';
 
 export default {
+    // listar pces
+    async index(request: Request, response: Response) {
+        const pcesRepository = getRepository(Pce);
+
+        const pces = await pcesRepository.find();
+
+        return response.json(pces);
+    },
+
+    async show(request: Request, response: Response) {
+        const  { id } = request.params;
+
+        const pcesRepository = getRepository(Pce);
+
+        const pce = await pcesRepository.findOneOrFail(id);
+
+        return response.json(pce);
+    },
+
+
 
     async create(request: Request, response: Response) {
             // decompor request
@@ -13,7 +33,7 @@ export default {
         about,
         charger_type,
         opening_hours,
-    } = request.body
+    } = request.body;
 
     const pcesRepository = getRepository(Pce); //model dentro do file Pce.ts
 
