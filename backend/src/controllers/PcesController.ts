@@ -7,7 +7,9 @@ export default {
     async index(request: Request, response: Response) {
         const pcesRepository = getRepository(Pce);
 
-        const pces = await pcesRepository.find();
+        const pces = await pcesRepository.find({
+            relations: ['images']
+        });
 
         return response.json(pces);
     },
@@ -17,7 +19,8 @@ export default {
 
         const pcesRepository = getRepository(Pce);
 
-        const pce = await pcesRepository.findOneOrFail(id);
+        const pce = await pcesRepository.findOneOrFail(id, {
+            relations: ['images']});
 
         return response.json(pce);
     },
