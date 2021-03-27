@@ -425,7 +425,7 @@ var SubjectExecutor = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, Promise.all(this.updateSubjects.map(function (subject) { return __awaiter(_this, void 0, void 0, function () {
-                            var partialEntity, manager, updateMap, updateQueryBuilder, updateResult;
+                            var partialEntity, manager, updateMap, updateQueryBuilder, updateResult, updateGeneratedMap_1;
                             var _this = this;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
@@ -466,15 +466,19 @@ var SubjectExecutor = /** @class */ (function () {
                                         return [4 /*yield*/, updateQueryBuilder.execute()];
                                     case 3:
                                         updateResult = _a.sent();
-                                        subject.generatedMap = updateResult.generatedMaps[0];
-                                        if (subject.generatedMap) {
+                                        updateGeneratedMap_1 = updateResult.generatedMaps[0];
+                                        if (updateGeneratedMap_1) {
                                             subject.metadata.columns.forEach(function (column) {
-                                                var value = column.getEntityValue(subject.generatedMap);
+                                                var value = column.getEntityValue(updateGeneratedMap_1);
                                                 if (value !== undefined && value !== null) {
                                                     var preparedValue = _this.queryRunner.connection.driver.prepareHydratedValue(value, column);
-                                                    column.setEntityValue(subject.generatedMap, preparedValue);
+                                                    column.setEntityValue(updateGeneratedMap_1, preparedValue);
                                                 }
                                             });
+                                            if (!subject.generatedMap) {
+                                                subject.generatedMap = {};
+                                            }
+                                            Object.assign(subject.generatedMap, updateGeneratedMap_1);
                                         }
                                         _a.label = 4;
                                     case 4: return [2 /*return*/];

@@ -76,7 +76,7 @@ var ConnectionOptionsEnvReader = /** @class */ (function () {
             return true;
         if (caching === "false" || caching === "FALSE" || caching === "0")
             return false;
-        if (caching === "redis" || caching === "database")
+        if (caching === "redis" || caching === "ioredis" || caching === "database")
             return {
                 type: caching,
                 options: PlatformTools_1.PlatformTools.getEnvVariable("TYPEORM_CACHE_OPTIONS") ? JSON.parse(PlatformTools_1.PlatformTools.getEnvVariable("TYPEORM_CACHE_OPTIONS")) : undefined,

@@ -28,14 +28,14 @@ export function Transaction(connectionOrOptions) {
             }
             var transactionCallback = function (entityManager) {
                 var argsWithInjectedTransactionManagerAndRepositories;
-                // filter all @TransactionEntityManager() and @TransactionRepository() decorator usages for this method
+                // filter all @TransactionManager() and @TransactionRepository() decorator usages for this method
                 var transactionEntityManagerMetadatas = getMetadataArgsStorage()
                     .filterTransactionEntityManagers(target.constructor, methodName)
                     .reverse();
                 var transactionRepositoryMetadatas = getMetadataArgsStorage()
                     .filterTransactionRepository(target.constructor, methodName)
                     .reverse();
-                // if there are @TransactionEntityManager() decorator usages the inject them
+                // if there are @TransactionManager() decorator usages the inject them
                 if (transactionEntityManagerMetadatas.length > 0) {
                     argsWithInjectedTransactionManagerAndRepositories = __spread(args);
                     // replace method params with injection of transactionEntityManager

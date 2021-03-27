@@ -223,19 +223,20 @@ var InsertQueryBuilder = /** @class */ (function (_super) {
      * Adds additional update statement supported in databases.
      */
     InsertQueryBuilder.prototype.orUpdate = function (statement) {
+        var _this = this;
         this.expressionMap.onUpdate = {};
         if (statement && Array.isArray(statement.conflict_target))
-            this.expressionMap.onUpdate.conflict = " ( " + statement.conflict_target.join(", ") + " ) ";
+            this.expressionMap.onUpdate.conflict = " ( " + statement.conflict_target.map(function (columnName) { return _this.escape(columnName); }).join(", ") + " ) ";
         if (statement && typeof statement.conflict_target === "string")
-            this.expressionMap.onUpdate.conflict = " ON CONSTRAINT " + statement.conflict_target + " ";
+            this.expressionMap.onUpdate.conflict = " ON CONSTRAINT " + this.escape(statement.conflict_target) + " ";
         if (statement && Array.isArray(statement.columns))
-            this.expressionMap.onUpdate.columns = statement.columns.map(function (column) { return column + " = :" + column; }).join(", ");
+            this.expressionMap.onUpdate.columns = statement.columns.map(function (column) { return _this.escape(column) + " = :" + column; }).join(", ");
         if (statement && Array.isArray(statement.overwrite)) {
             if (this.connection.driver instanceof MysqlDriver_1.MysqlDriver || this.connection.driver instanceof AuroraDataApiDriver_1.AuroraDataApiDriver) {
                 this.expressionMap.onUpdate.overwrite = statement.overwrite.map(function (column) { return column + " = VALUES(" + column + ")"; }).join(", ");
             }
             else if (this.connection.driver instanceof PostgresDriver_1.PostgresDriver || this.connection.driver instanceof AbstractSqliteDriver_1.AbstractSqliteDriver || this.connection.driver instanceof CockroachDriver_1.CockroachDriver) {
-                this.expressionMap.onUpdate.overwrite = statement.overwrite.map(function (column) { return column + " = EXCLUDED." + column; }).join(", ");
+                this.expressionMap.onUpdate.overwrite = statement.overwrite.map(function (column) { return _this.escape(column) + " = EXCLUDED." + _this.escape(column); }).join(", ");
             }
         }
         return this;
@@ -247,6 +248,7 @@ var InsertQueryBuilder = /** @class */ (function (_super) {
      * Creates INSERT express used to perform insert query.
      */
     InsertQueryBuilder.prototype.createInsertExpression = function () {
+        var _this = this;
         var tableName = this.getTableName(this.getMainTableName());
         var valuesExpression = this.createValuesExpression(); // its important to get values before returning expression because oracle rely on native parameters and ordering of them is important
         var returningExpression = (this.connection.driver instanceof OracleDriver_1.OracleDriver && this.getValueSets().length > 1) ? null : this.createReturningExpression(); // oracle doesnt support returning with multi-row insert
@@ -305,6 +307,15 @@ var InsertQueryBuilder = /** @class */ (function (_super) {
         if (returningExpression && (this.connection.driver instanceof PostgresDriver_1.PostgresDriver || this.connection.driver instanceof OracleDriver_1.OracleDriver || this.connection.driver instanceof CockroachDriver_1.CockroachDriver)) {
             query += " RETURNING " + returningExpression;
         }
+        // Inserting a specific value for an auto-increment primary key in mssql requires enabling IDENTITY_INSERT
+        // IDENTITY_INSERT can only be enabled for tables where there is an IDENTITY column and only if there is a value to be inserted (i.e. supplying DEFAULT is prohibited if IDENTITY_INSERT is enabled)
+        if (this.connection.driver instanceof SqlServerDriver_1.SqlServerDriver
+            && this.expressionMap.mainAlias.hasMetadata
+            && this.expressionMap.mainAlias.metadata.columns
+                .filter(function (column) { return _this.expressionMap.insertColumns.length > 0 ? _this.expressionMap.insertColumns.indexOf(column.propertyPath) !== -1 : column.isInsert; })
+                .some(function (column) { return _this.isOverridingAutoIncrementBehavior(column); })) {
+            query = "SET IDENTITY_INSERT " + tableName + " ON; " + query + "; SET IDENTITY_INSERT " + tableName + " OFF";
+        }
         return query;
     };
     /**
@@ -328,7 +339,8 @@ var InsertQueryBuilder = /** @class */ (function (_super) {
                 && !(_this.connection.driver instanceof OracleDriver_1.OracleDriver)
                 && !(_this.connection.driver instanceof AbstractSqliteDriver_1.AbstractSqliteDriver)
                 && !(_this.connection.driver instanceof MysqlDriver_1.MysqlDriver)
-                && !(_this.connection.driver instanceof AuroraDataApiDriver_1.AuroraDataApiDriver))
+                && !(_this.connection.driver instanceof AuroraDataApiDriver_1.AuroraDataApiDriver)
+                && !(_this.connection.driver instanceof SqlServerDriver_1.SqlServerDriver && _this.isOverridingAutoIncrementBehavior(column)))
                 return false;
             return true;
         });
@@ -557,6 +569,20 @@ var InsertQueryBuilder = /** @class */ (function (_super) {
         if (this.expressionMap.valuesSet instanceof Object)
             return [this.expressionMap.valuesSet];
         throw new InsertValuesMissingError_1.InsertValuesMissingError();
+    };
+    /**
+     * Checks if column is an auto-generated primary key, but the current insertion specifies a value for it.
+     *
+     * @param column
+     */
+    InsertQueryBuilder.prototype.isOverridingAutoIncrementBehavior = function (column) {
+        return column.isPrimary
+            && column.isGenerated
+            && column.generationStrategy === "increment"
+            && this.getValueSets().some(function (valueSet) {
+                return column.getEntityValue(valueSet) !== undefined
+                    && column.getEntityValue(valueSet) !== null;
+            });
     };
     return InsertQueryBuilder;
 }(QueryBuilder_1.QueryBuilder));

@@ -2198,10 +2198,16 @@ var MysqlQueryRunner = /** @class */ (function (_super) {
             c += " CHARACTER SET \"" + column.charset + "\"";
         if (column.collation)
             c += " COLLATE \"" + column.collation + "\"";
-        if (!column.isNullable)
-            c += " NOT NULL";
-        if (column.isNullable)
-            c += " NULL";
+        var isMariaDb = this.driver.options.type === "mariadb";
+        if (isMariaDb && column.asExpression && (column.generatedType || "VIRTUAL") === "VIRTUAL") {
+            // do nothing - MariaDB does not support NULL/NOT NULL expressions for VIRTUAL columns
+        }
+        else {
+            if (!column.isNullable)
+                c += " NOT NULL";
+            if (column.isNullable)
+                c += " NULL";
+        }
         if (column.isPrimary && !skipPrimary)
             c += " PRIMARY KEY";
         if (column.isGenerated && column.generationStrategy === "increment") // don't use skipPrimary here since updates can update already exist primary without auto inc.

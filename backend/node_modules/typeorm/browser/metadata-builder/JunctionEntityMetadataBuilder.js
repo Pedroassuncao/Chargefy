@@ -119,7 +119,7 @@ var JunctionEntityMetadataBuilder = /** @class */ (function () {
         entityMetadata.ownColumns = __spread(junctionColumns, inverseJunctionColumns);
         entityMetadata.ownColumns.forEach(function (column) { return column.relationMetadata = relation; });
         // create junction table foreign keys
-        entityMetadata.foreignKeys = [
+        entityMetadata.foreignKeys = relation.createForeignKeyConstraints ? [
             new ForeignKeyMetadata({
                 entityMetadata: entityMetadata,
                 referencedEntityMetadata: relation.entityMetadata,
@@ -134,7 +134,7 @@ var JunctionEntityMetadataBuilder = /** @class */ (function () {
                 referencedColumns: inverseReferencedColumns,
                 onDelete: relation.onDelete || "CASCADE"
             }),
-        ];
+        ] : [];
         // create junction table indices
         entityMetadata.ownIndices = [
             new IndexMetadata({

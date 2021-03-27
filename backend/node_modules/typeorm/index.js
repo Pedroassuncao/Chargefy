@@ -13,7 +13,7 @@ var ConnectionOptionsReader_1 = require("./connection/ConnectionOptionsReader");
 // Commonly Used exports
 // -------------------------------------------------------------------------
 tslib_1.__exportStar(require("./container"), exports);
-tslib_1.__exportStar(require("./error/QueryFailedError"), exports);
+tslib_1.__exportStar(require("./error"), exports);
 tslib_1.__exportStar(require("./decorator/columns/Column"), exports);
 tslib_1.__exportStar(require("./decorator/columns/CreateDateColumn"), exports);
 tslib_1.__exportStar(require("./decorator/columns/DeleteDateColumn"), exports);

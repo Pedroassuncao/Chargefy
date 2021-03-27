@@ -11,7 +11,7 @@ import { ConnectionOptionsReader } from "./connection/ConnectionOptionsReader";
 // Commonly Used exports
 // -------------------------------------------------------------------------
 export * from "./container";
-export * from "./error/QueryFailedError";
+export * from "./error";
 export * from "./decorator/columns/Column";
 export * from "./decorator/columns/CreateDateColumn";
 export * from "./decorator/columns/DeleteDateColumn";

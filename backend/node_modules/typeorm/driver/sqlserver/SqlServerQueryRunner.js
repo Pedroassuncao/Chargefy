@@ -264,17 +264,18 @@ var SqlServerQueryRunner = /** @class */ (function (_super) {
                                         request_1 = new this.driver.mssql.Request(this.isTransactionActive ? this.databaseConnection : pool);
                                         if (parameters && parameters.length) {
                                             parameters.forEach(function (parameter, index) {
+                                                var parameterName = index.toString();
                                                 if (parameter instanceof MssqlParameter_1.MssqlParameter) {
                                                     var mssqlParameter = _this.mssqlParameterToNativeParameter(parameter);
                                                     if (mssqlParameter) {
-                                                        request_1.input(index, mssqlParameter, parameter.value);
+                                                        request_1.input(parameterName, mssqlParameter, parameter.value);
                                                     }
                                                     else {
-                                                        request_1.input(index, parameter.value);
+                                                        request_1.input(parameterName, parameter.value);
                                                     }
                                                 }
                                                 else {
-                                                    request_1.input(index, parameter);
+                                                    request_1.input(parameterName, parameter);
                                                 }
                                             });
                                         }
@@ -363,11 +364,12 @@ var SqlServerQueryRunner = /** @class */ (function (_super) {
                                         request.stream = true;
                                         if (parameters && parameters.length) {
                                             parameters.forEach(function (parameter, index) {
+                                                var parameterName = index.toString();
                                                 if (parameter instanceof MssqlParameter_1.MssqlParameter) {
-                                                    request.input(index, _this.mssqlParameterToNativeParameter(parameter), parameter.value);
+                                                    request.input(parameterName, _this.mssqlParameterToNativeParameter(parameter), parameter.value);
                                                 }
                                                 else {
-                                                    request.input(index, parameter);
+                                                    request.input(parameterName, parameter);
                                                 }
                                             });
                                         }

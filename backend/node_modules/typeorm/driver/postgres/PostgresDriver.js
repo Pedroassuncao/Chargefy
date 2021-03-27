@@ -198,6 +198,9 @@ var PostgresDriver = /** @class */ (function () {
         this.connection = connection;
         this.options = connection.options;
         this.isReplicated = this.options.replication ? true : false;
+        if (this.options.useUTC) {
+            process.env.PGTZ = 'UTC';
+        }
         // load postgres package
         this.loadDependencies();
         // ObjectUtils.assign(this.options, DriverUtils.buildDriverOptions(connection.options)); // todo: do it better way

@@ -130,6 +130,12 @@ export declare class RelationMetadata {
      */
     deferrable?: DeferrableType;
     /**
+     * Indicates whether foreign key constraints will be created for join columns.
+     * Can be used only for many-to-one and owner one-to-one relations.
+     * Defaults to true.
+     */
+    createForeignKeyConstraints: boolean;
+    /**
      * Gets the property's type to which this relation is applied.
      *
      * For example for @ManyToMany(type => Category) in Post, target will be Category.
@@ -260,6 +266,11 @@ export declare class RelationMetadata {
      * This builder method should be used to register foreign key in the relation.
      */
     registerForeignKeys(...foreignKeys: ForeignKeyMetadata[]): void;
+    /**
+     * Registers given join columns in the relation.
+     * This builder method should be used to register join column in the relation.
+     */
+    registerJoinColumns(joinColumns?: ColumnMetadata[], inverseJoinColumns?: ColumnMetadata[]): void;
     /**
      * Registers a given junction entity metadata.
      * This builder method can be called after junction entity metadata for the many-to-many relation was created.

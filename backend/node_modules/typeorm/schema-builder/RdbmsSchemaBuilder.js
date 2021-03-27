@@ -1507,7 +1507,8 @@ var RdbmsSchemaBuilder = /** @class */ (function () {
                                         table = this_18.queryRunner.loadedTables.find(function (table) { return table.name === metadata.tablePath; });
                                         if (!table)
                                             return [2 /*return*/, "continue"];
-                                        newKeys = metadata.foreignKeys.filter(function (foreignKey) {
+                                        newKeys = metadata.foreignKeys
+                                            .filter(function (foreignKey) {
                                             return !table.foreignKeys.find(function (dbForeignKey) { return foreignKeysMatch(dbForeignKey, foreignKey); });
                                         });
                                         if (newKeys.length === 0)

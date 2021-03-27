@@ -159,6 +159,9 @@ var OracleDriver = /** @class */ (function () {
         this.maxAliasLength = 30;
         this.connection = connection;
         this.options = connection.options;
+        if (this.options.useUTC === true) {
+            process.env.ORA_SDTZ = 'UTC';
+        }
         // load oracle package
         this.loadDependencies();
         // extra oracle setup

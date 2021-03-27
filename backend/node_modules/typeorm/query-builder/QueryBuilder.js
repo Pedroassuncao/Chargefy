@@ -508,10 +508,12 @@ var QueryBuilder = /** @class */ (function () {
             }
             var replacementKeys = Object.keys(replacements);
             if (replacementKeys.length) {
-                statement = statement.replace(new RegExp("(?<=[ =(]|^.{0})" +
+                statement = statement.replace(new RegExp(
+                // Avoid a lookbehind here since it's not well supported
+                "([ =(]|^.{0})" +
                     (escapeRegExp(replaceAliasNamePrefix) + "(" + replacementKeys.map(escapeRegExp).join("|") + ")") +
-                    "(?=[ =),]|.{0}$)", "gm"), function (_, p) {
-                    return "" + replacementAliasNamePrefix + _this.escape(replacements[p]);
+                    "(?=[ =),]|.{0}$)", "gm"), function (_, pre, p) {
+                    return "" + pre + replacementAliasNamePrefix + _this.escape(replacements[p]);
                 });
             }
         };

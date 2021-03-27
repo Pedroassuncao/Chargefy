@@ -939,6 +939,10 @@ var SelectQueryBuilder = /** @class */ (function (_super) {
         // joinAttribute.junctionAlias = joinAttribute.relation.isOwning ? parentAlias + "_" + destinationTableAlias : destinationTableAlias + "_" + parentAlias;
         this.expressionMap.joinAttributes.push(joinAttribute);
         if (joinAttribute.metadata) {
+            if (joinAttribute.metadata.deleteDateColumn && !this.expressionMap.withDeleted) {
+                var conditionDeleteColumn = aliasName + "." + joinAttribute.metadata.deleteDateColumn.propertyName + " IS NULL";
+                joinAttribute.condition += joinAttribute.condition ? " AND " + conditionDeleteColumn : "" + conditionDeleteColumn;
+            }
             // todo: find and set metadata right there?
             joinAttribute.alias = this.expressionMap.createAlias({
                 type: "join",
@@ -1090,6 +1094,9 @@ var SelectQueryBuilder = /** @class */ (function (_super) {
             else if (relation.isOneToMany || relation.isOneToOneNotOwner) {
                 // JOIN `post` `post` ON `post`.`categoryId` = `category`.`id`
                 var condition = relation.inverseRelation.joinColumns.map(function (joinColumn) {
+                    if (relation.inverseEntityMetadata.tableType === "entity-child" && relation.inverseEntityMetadata.discriminatorColumn) {
+                        appendedCondition += " AND " + destinationTableAlias + "." + relation.inverseEntityMetadata.discriminatorColumn.databaseName + "='" + relation.inverseEntityMetadata.discriminatorValue + "'";
+                    }
                     return destinationTableAlias + "." + relation.inverseRelation.propertyPath + "." + joinColumn.referencedColumn.propertyPath + "=" +
                         parentAlias + "." + joinColumn.referencedColumn.propertyPath;
                 }).join(" AND ");
@@ -1320,7 +1327,12 @@ var SelectQueryBuilder = /** @class */ (function (_super) {
                 }
                 if (_this.connection.driver instanceof PostgresDriver_1.PostgresDriver)
                     // cast to JSON to trigger parsing in the driver
-                    selectionPath = "ST_AsGeoJSON(" + selectionPath + ")::json";
+                    if (column.precision) {
+                        selectionPath = "ST_AsGeoJSON(" + selectionPath + ", " + column.precision + ")::json";
+                    }
+                    else {
+                        selectionPath = "ST_AsGeoJSON(" + selectionPath + ")::json";
+                    }
                 if (_this.connection.driver instanceof SqlServerDriver_1.SqlServerDriver)
                     selectionPath = selectionPath + ".ToString()";
             }

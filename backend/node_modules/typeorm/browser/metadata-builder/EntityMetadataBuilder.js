@@ -86,10 +86,13 @@ var EntityMetadataBuilder = /** @class */ (function () {
             // create entity's relations join columns (for many-to-one and one-to-one owner)
             entityMetadata.relations.filter(function (relation) { return relation.isOneToOne || relation.isManyToOne; }).forEach(function (relation) {
                 var joinColumns = _this.metadataArgsStorage.filterJoinColumns(relation.target, relation.propertyName);
-                var _a = _this.relationJoinColumnBuilder.build(joinColumns, relation), foreignKey = _a.foreignKey, uniqueConstraint = _a.uniqueConstraint; // create a foreign key based on its metadata args
+                var _a = _this.relationJoinColumnBuilder.build(joinColumns, relation), foreignKey = _a.foreignKey, columns = _a.columns, uniqueConstraint = _a.uniqueConstraint; // create a foreign key based on its metadata args
                 if (foreignKey) {
                     relation.registerForeignKeys(foreignKey); // push it to the relation and thus register there a join column
                     entityMetadata.foreignKeys.push(foreignKey);
+                }
+                if (columns) {
+                    relation.registerJoinColumns(columns);
                 }
                 if (uniqueConstraint) {
                     if (_this.connection.driver instanceof MysqlDriver || _this.connection.driver instanceof AuroraDataApiDriver
@@ -153,6 +156,7 @@ var EntityMetadataBuilder = /** @class */ (function () {
                 // here we create a junction entity metadata for a new junction table of many-to-many relation
                 var junctionEntityMetadata = _this.junctionEntityMetadataBuilder.build(relation, joinTable);
                 relation.registerForeignKeys.apply(relation, __spread(junctionEntityMetadata.foreignKeys));
+                relation.registerJoinColumns(junctionEntityMetadata.ownIndices[0].columns, junctionEntityMetadata.ownIndices[1].columns);
                 relation.registerJunctionEntityMetadata(junctionEntityMetadata);
                 // compute new entity metadata properties and push it to entity metadatas pool
                 _this.computeEntityMetadataStep2(junctionEntityMetadata);
