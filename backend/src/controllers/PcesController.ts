@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import express, {Request, Response} from 'express';
 import { getRepository } from  'typeorm';
 import Pce from '../models/Pce';
 
@@ -7,7 +7,9 @@ export default {
     async index(request: Request, response: Response) {
         const pcesRepository = getRepository(Pce);
 
-        const pces = await pcesRepository.find();
+        const pces = await pcesRepository.find({
+            relations: ['images']
+        });
 
         return response.json(pces);
     },
@@ -17,7 +19,8 @@ export default {
 
         const pcesRepository = getRepository(Pce);
 
-        const pce = await pcesRepository.findOneOrFail(id);
+        const pce = await pcesRepository.findOneOrFail(id, {
+            relations: ['images']});
 
         return response.json(pce);
     },
@@ -37,6 +40,12 @@ export default {
 
     const pcesRepository = getRepository(Pce); //model dentro do file Pce.ts
 
+    const requestImages = request.files as Express.Multer.File[]; //hack para upload de multiplos files
+
+    const images = requestImages.map(image => {
+        return { path: image.filename }
+    })
+
     const pce = pcesRepository.create({
         name,
         latitude,
@@ -44,6 +53,7 @@ export default {
         about,
         charger_type,
         opening_hours,
+        images
     });
 
    await pcesRepository.save(pce);
