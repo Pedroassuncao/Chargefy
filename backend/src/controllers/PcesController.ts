@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
 import { getRepository } from  'typeorm';
 import Pce from '../models/Pce';
+import pceView from '../views/pces_view';
 
 export default {
     // listar pces
@@ -11,7 +12,7 @@ export default {
             relations: ['images']
         });
 
-        return response.json(pces);
+        return response.json(pceView.renderMany(pces));
     },
 
     async show(request: Request, response: Response) {
@@ -22,7 +23,7 @@ export default {
         const pce = await pcesRepository.findOneOrFail(id, {
             relations: ['images']});
 
-        return response.json(pce);
+        return response.json(pceView.render(pce)); 
     },
 
 
