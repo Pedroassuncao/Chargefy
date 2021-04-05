@@ -1,7 +1,3 @@
-## backend instructions
-
-
-
 <h1 align="center">
     <img alt="Chargefy" title="Chargefy" src="../.github/chargefy.png" width="180px" />
 </h1>
@@ -24,8 +20,6 @@ will be included later
 - User login ✨
 
 ## How to run the backend
-
-clone the repo
 
 ```bash
 git clone https://github.com/Pedroassuncao/Chargefy.git
