@@ -30,7 +30,31 @@ yarn dev
 
 PS: Have a small script configured to run some commands
 
+## How to test
 
+Use software API like [Insomnia](https://insomnia.rest/) (recommended) or [Postman](https://www.postman.com/)
+
+ - Create PCE
+	 - POST
+	 - Multipar form ( image upload)
+ - List all PCEs
+	 - GET
+	 - http://localhost:3333/pces
+ - Specific PCE
+	 - http://localhost:3333/pces/id 		(where id = 1,2,3...)
+
+Json format
+```json
+       {
+      "id": (note necessary, its auto incremented)
+      "name": "string",
+      "latitude": number,
+      "longitude": number,
+      "about": "string",
+      "charger_type": "string",
+      "opening_hours": "string"
+	    }
+```
 
 ## Creators
 
