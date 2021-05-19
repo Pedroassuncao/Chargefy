@@ -33,6 +33,9 @@ export default class Pce {
     })
     @JoinColumn({ name: 'pce_id'})
     images: Image[];
+
+    @Column()
+    approved: boolean;
 }
 
 // este file tem de estar relacionado/igual ao file de criacao de BD migrations/create_PCE.ts

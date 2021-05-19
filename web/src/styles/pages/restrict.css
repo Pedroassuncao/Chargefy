@@ -1,0 +1,74 @@
+#page-restrict {
+  width: 100vw;
+  height: 100vh;
+
+  background: linear-gradient(
+    329.54deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
+}
+
+#page-restrict .content-wrapper {
+  display: flex;
+}
+
+#page-restrict .content-wrapper .login-card .login-area .input-area {
+  margin-top: 50px;
+}
+
+#page-restrict .content-wrapper .login-card .login-area .help-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 20px;
+}
+
+#page-restrict
+  .content-wrapper
+  .login-card
+  .login-area
+  .help-area
+  .checkbox-block {
+  display: flex;
+  align-items: center;
+}
+
+#page-restrict
+  .content-wrapper
+  .login-card
+  .login-area
+  .help-area
+  .checkbox-block
+  label {
+  color: #8fa7b2;
+}
+
+#page-restrict
+  .content-wrapper
+  .login-card
+  .login-area
+  .help-area
+  .forgot-password {
+  text-decoration: none;
+  color: #8fa7b2;
+}
+
+#page-restrict .content-wrapper p {
+  color: #5c8599;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+
+  margin-bottom: 30px;
+
+  max-width: 350px;
+}
+
+.login-card .login-area legend span {
+  color: #5c8599;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 34px;
+}

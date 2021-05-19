@@ -1,0 +1,113 @@
+#page-registred {
+  width: 100vw;
+  height: 100vh;
+
+  overflow-x: hidden;
+
+  position: relative;
+}
+
+#page-registred .content-wapper {
+  display: flex;
+}
+
+#page-registred .registred-pces {
+  max-width: 1300px;
+  height: 100vh;
+  margin: 0 auto;
+  margin-left: 120px;
+}
+
+#page-registred .registred-pces .info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 2px solid #d3e2e5;
+  padding: 60px 0 30px 0;
+}
+
+#page-registred .registred-pces .info h1 {
+  color: #4d6f80;
+}
+
+#page-registred .registred-pces .info p {
+  color: #8fa7b2;
+}
+
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 20px;
+}
+
+.cards-wrapper .no-orph {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+
+  width: 49%;
+
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.123);
+
+  margin-top: 20px;
+}
+
+.card .leaflet-container {
+  border-radius: 20px;
+}
+
+.card h2 {
+  color: #4d6f80;
+}
+
+.card .card-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 30px;
+}
+.card .card-info .card-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-btn + .card-btn {
+  margin-left: 10px;
+}
+
+.card-btn {
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+
+  background: #ebf2f5;
+  color: #15D691;
+
+  border: none;
+
+  border-radius: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s;
+}
+
+.card-btn:hover {
+  background: #4d6f80;
+  color: #37c77f;
+}
