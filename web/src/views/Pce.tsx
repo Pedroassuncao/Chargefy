@@ -92,7 +92,8 @@ export default function Pce() {
                 doubleClickZoom={false}
               >
                 <TileLayer
-                  url={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                  // url={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                  url="https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicGVkcm9hc3N1bmNhbyIsImEiOiJja253N256cWcwOW1tMm9tcGNqZHFwOHFjIn0.Z077Z511SWshLZ4cw-hq-Q"  
                 />
                 <Marker
                   interactive={false}

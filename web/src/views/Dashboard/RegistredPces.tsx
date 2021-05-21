@@ -67,10 +67,16 @@ export default function Registred() {
                       center={[pce.latitude, pce.longitude]}
                       style={{ width: '100%', height: 280 }}
                       zoom={13}
+                      dragging={false}
+                      touchZoom={false}
+                      zoomControl={false}
+                      scrollWheelZoom={false}
+                      doubleClickZoom={false}
                     >
                       <TileLayer
                       // url = "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      url={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                      // url={`https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                      url="https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicGVkcm9hc3N1bmNhbyIsImEiOiJja253N256cWcwOW1tMm9tcGNqZHFwOHFjIn0.Z077Z511SWshLZ4cw-hq-Q"
                       />
                       <Marker
                         interactive={false}

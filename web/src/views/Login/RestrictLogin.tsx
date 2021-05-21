@@ -31,7 +31,7 @@ export default function Restrict() {
         const { data } = resp;
         if (data) {
           localStorage.setItem('app-token', data.token);
-          history.push('/dashboard/registred');
+          history.push('/app');
         }
         console.log('Email ou senha inválido(s)');
       }).catch((err) => {window.alert('Email ou password inválido(s)');});
