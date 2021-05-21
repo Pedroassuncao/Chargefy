@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-/// import { FaImages, FaWhatsapp } from 'react-icons/fa';
-import { FiBatteryCharging, FiClock, FiHeart, FiInfo } from 'react-icons/fi';
+
+import { FiBatteryCharging, FiClock } from 'react-icons/fi';
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { useParams } from 'react-router-dom';
 
@@ -134,12 +134,6 @@ export default function Pce() {
                 </div>
               ) : (
                 <div> </div>
-                // <div className="open-on-weekends closed-on-weekends">
-                //   <FiBatteryCharging size={32} color="#FF669D" />
-                //   Não atendemos
-                //   <br />
-                //   fim de semana
-                // </div>
               )}
             </div>
 
