@@ -34,7 +34,7 @@ export default function Restrict() {
           history.push('/dashboard/registred');
         }
         console.log('Email ou senha inválido(s)');
-      });
+      }).catch((err) => {window.alert('Email ou password inválido(s)');});
   }
 
   return (
@@ -75,7 +75,7 @@ export default function Restrict() {
                       <label htmlFor="remember">Lembrar-me</label>
                     </div>
                     <Link to="/login/forgot" className="forgot-password">
-                      Esqueci minha Password
+                      Recuperar Password
                     </Link>
                   </div>
                 </div>

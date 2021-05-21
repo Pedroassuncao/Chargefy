@@ -12,6 +12,7 @@ export default function DashSideBar(props: any) {
   function handleLogoff() {
     localStorage.removeItem('app-token');
     history.push('/login');
+    window.alert('Secção terminada com sucesso');
   }
   return (
     <aside className="dashboard-side">
