@@ -22,7 +22,7 @@ interface Pce {
 }
 
 function PcesMap() {
-  const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
+  const [position, setPosition] = useState({ latitude: 41.1438288, longitude: -8.6075782 });
 
   const [pces, setPces] = useState<Pce[]>([]);
 
