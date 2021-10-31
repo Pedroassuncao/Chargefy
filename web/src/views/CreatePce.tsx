@@ -101,6 +101,7 @@ export default function CreatePce() {
                  url="https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicGVkcm9hc3N1bmNhbyIsImEiOiJja253N256cWcwOW1tMm9tcGNqZHFwOHFjIn0.Z077Z511SWshLZ4cw-hq-Q"
               />
 
+              {/* conditional rendering  */}
               {position.latitude !== 0 && (
                 <Marker
                   interactive={false}
@@ -160,7 +161,7 @@ export default function CreatePce() {
               <textarea
                 id="instructions"
                 value={charger_type}
-                onChange={(e) => setChargerType(e.target.value)}
+                onChange={(e/*event*/) => setChargerType(e.target.value)}
               />
             </div>
 
